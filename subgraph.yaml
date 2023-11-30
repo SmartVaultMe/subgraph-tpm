@@ -1,0 +1,45 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TimeCapsule
+    network: mainnet
+    source:
+      address: "0x5FE3543F96c7aA1A85d82206cCeDC80Dc2722d00"
+      abi: TimeCapsule
+      startBlock: 17616495
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Initialized
+        - Locked
+        - Recovered
+        - RecoveryInitiated
+        - Retired
+        - Withdrawal
+        - WithdrawalCancelled
+        - WithdrawalInitiated
+      abis:
+        - name: TimeCapsule
+          file: ./abis/TimeCapsule.json
+      eventHandlers:
+        - event: Initialized(uint8)
+          handler: handleInitialized
+        - event: Locked(address,uint256,uint256,uint256,uint256,bool)
+          handler: handleLocked
+        - event: Recovered()
+          handler: handleRecovered
+        - event: RecoveryInitiated()
+          handler: handleRecoveryInitiated
+        - event: Retired(address)
+          handler: handleRetired
+        - event: Withdrawal(address,uint256)
+          handler: handleWithdrawal
+        - event: WithdrawalCancelled(address,uint256)
+          handler: handleWithdrawalCancelled
+        - event: WithdrawalInitiated(address,uint256)
+          handler: handleWithdrawalInitiated
+      file: ./src/time-capsule.ts

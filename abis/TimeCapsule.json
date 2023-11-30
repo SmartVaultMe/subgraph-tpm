@@ -1,0 +1,397 @@
+[
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "extERC20",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "fee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lockTime",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "unlockTime",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "autoLock",
+        "type": "bool"
+      }
+    ],
+    "name": "Locked",
+    "type": "event"
+  },
+  { "anonymous": false, "inputs": [], "name": "Recovered", "type": "event" },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "RecoveryInitiated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "extERC20",
+        "type": "address"
+      }
+    ],
+    "name": "Retired",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "extERC20",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Withdrawal",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "extERC20",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lockIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "WithdrawalCancelled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "extERC20",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "WithdrawalInitiated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "_locks",
+    "outputs": [
+      {
+        "internalType": "enum TimeCapsuleContext.LockState",
+        "name": "state",
+        "type": "uint8"
+      },
+      { "internalType": "uint64", "name": "lockTime", "type": "uint64" },
+      { "internalType": "uint64", "name": "unlockTime", "type": "uint64" },
+      { "internalType": "bool", "name": "autoLock", "type": "bool" },
+      { "internalType": "uint112", "name": "reserved", "type": "uint112" },
+      { "internalType": "uint256", "name": "lockedAmount", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "withdrawnToDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timelockedAmount",
+        "type": "uint256"
+      },
+      { "internalType": "uint64", "name": "releaseTime", "type": "uint64" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "uint256", "name": "unix_time", "type": "uint256" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" }
+    ],
+    "name": "_verifyTimeSignature",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address payable",
+        "name": "_externalERC20address",
+        "type": "address"
+      }
+    ],
+    "name": "addToken",
+    "outputs": [
+      { "internalType": "bool", "name": "success", "type": "bool" },
+      {
+        "internalType": "uint256",
+        "name": "feeTransferMask",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "extERC20", "type": "address" },
+      { "internalType": "uint256", "name": "index", "type": "uint256" }
+    ],
+    "name": "calculateAllowance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "withdrawalAllowance",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_externalERC20address",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "_lockIndex", "type": "uint256" }
+    ],
+    "name": "cancelWithdrawal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "_addressHash", "type": "bytes32" }
+    ],
+    "name": "checkRecoveryAddress",
+    "outputs": [
+      { "internalType": "bool", "name": "confirmed", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_externalERC20address",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "_lockAmount", "type": "uint256" },
+      { "internalType": "uint256", "name": "_fee", "type": "uint256" },
+      { "internalType": "uint64", "name": "_lockTime", "type": "uint64" },
+      { "internalType": "uint64", "name": "_unlockTime", "type": "uint64" }
+    ],
+    "name": "createLock",
+    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_newOwner", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "_factoryAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "contract FeeSplitter",
+        "name": "_feeSplitterContract",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_externalERC20address",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "_lockIndex", "type": "uint256" }
+    ],
+    "name": "initiateWithdrawal",
+    "outputs": [
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_extERC20", "type": "address" }
+    ],
+    "name": "lockCount",
+    "outputs": [
+      { "internalType": "uint256", "name": "count", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_extERC20", "type": "address" },
+      { "internalType": "uint256", "name": "_index", "type": "uint256" }
+    ],
+    "name": "lockData",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "enum TimeCapsuleContext.LockState",
+            "name": "state",
+            "type": "uint8"
+          },
+          { "internalType": "uint64", "name": "lockTime", "type": "uint64" },
+          { "internalType": "uint64", "name": "unlockTime", "type": "uint64" },
+          { "internalType": "bool", "name": "autoLock", "type": "bool" },
+          { "internalType": "uint112", "name": "reserved", "type": "uint112" },
+          {
+            "internalType": "uint256",
+            "name": "lockedAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawnToDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "timelockedAmount",
+            "type": "uint256"
+          },
+          { "internalType": "uint64", "name": "releaseTime", "type": "uint64" }
+        ],
+        "internalType": "struct TimeCapsuleContext.Lock",
+        "name": "lock",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "panic",
+    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_oldOwner", "type": "address" }
+    ],
+    "name": "recover",
+    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_externalERC20address",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "_lockIndex", "type": "uint256" }
+    ],
+    "name": "sendWithdrawal",
+    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "vaultStatus",
+    "outputs": [
+      {
+        "internalType": "enum TimeCapsuleContext.VaultStatus",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  { "stateMutability": "payable", "type": "receive" }
+]
